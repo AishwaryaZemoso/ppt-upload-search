@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatCode;
 
 @SpringBootTest
 class PptApplicationTests {
@@ -16,8 +17,8 @@ class PptApplicationTests {
         assertThat(applicationContext).isNotNull();
     }
     @Test
-    void testMainBeanLoads() {
-        // Assert that the main application class is loaded as a bean
-        assertThat(applicationContext.containsBean("pptApplication")).isTrue();
+    void testMainMethod() {
+        // Use assertThatCode to ensure the main method runs without throwing exceptions
+        assertThatCode(() -> PptApplication.main(new String[] {})).doesNotThrowAnyException();
     }
 }
