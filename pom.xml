@@ -33,7 +33,7 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <sonar.projectKey>AishwaryaZemoso_ppt-upload-search</sonar.projectKey>
-        <sonar.organization>AishwaryaZemoso</sonar.organization>
+        <sonar.organization>aishwaryazemoso</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
         <sonar.jacoco.reportPaths>target/jacoco.exec</sonar.jacoco.reportPaths>
     </properties>
