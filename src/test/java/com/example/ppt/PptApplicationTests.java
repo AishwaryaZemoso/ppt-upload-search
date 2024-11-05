@@ -15,5 +15,9 @@ class PptApplicationTests {
     void contextLoads() {
         assertThat(applicationContext).isNotNull();
     }
-
+    @Test
+    void testMainBeanLoads() {
+        // Assert that the main application class is loaded as a bean
+        assertThat(applicationContext.containsBean("pptApplication")).isTrue();
+    }
 }
