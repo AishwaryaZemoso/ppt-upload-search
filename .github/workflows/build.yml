@@ -19,6 +19,8 @@ jobs:
           java-version: 17
           distribution: 'zulu' # Alternative distribution options are available.
       - name: Build with Maven
+        env:
+          SPRING_DATASOURCE_PASSWORD : ${{ secrets.SPRING_DATASOURCE_PASSWORD }} # Access  password from GitHub secret
         run: mvn clean install
       - name: SonarCloud Analysis
         env:
