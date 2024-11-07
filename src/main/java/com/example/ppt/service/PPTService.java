@@ -7,13 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
+import java.util.Objects;
 import java.util.Optional;
 
 
@@ -38,9 +37,16 @@ public class PPTService {
             return new UploadResponse("File already exists", existingFile.get().getId());
         }
 
-        // Save the file locally
-        Path filePath = Paths.get(uploadDir + File.separator + file.getOriginalFilename());
-        Files.createDirectories(filePath.getParent()); // Create directories if they don't exist
+        // Ensure the filename doesn't contain unsafe characters or path traversal sequences
+        String sanitizedFileName = sanitizeFileName(Objects.requireNonNull(file.getOriginalFilename()));
+        // Create a unique file name to prevent collisions
+        String uniqueFileName = System.currentTimeMillis() + "_" + sanitizedFileName;
+        // Create a safe path by combining the upload directory and sanitized/unique filename
+        Path filePath = Paths.get(uploadDir).resolve(uniqueFileName);
+        // Ensure the directory exists
+        Files.createDirectories(filePath.getParent());
+
+        // Save the file to the destination
         file.transferTo(filePath.toFile());
         FileMetadata fileMetadata = new FileMetadata();
         fileMetadata.setFileName(file.getOriginalFilename());
@@ -54,5 +60,8 @@ public class PPTService {
 
         return new UploadResponse("File uploaded successfully", savedFile.getId());
     }
-
+    private String sanitizeFileName(String fileName) {
+        // Remove any special characters or path traversal attempts
+        return fileName.replaceAll("[^a-zA-Z0-9.-]", "_"); // Only allows alphanumeric, dot, and dash
+    }
 }
