@@ -22,7 +22,8 @@ public class PPTService {
     private final FileMetadataRepository fileMetadataRepository;
     // Define the base directory where files will be saved
     @Value("${file.upload-dir}") // Read directory from application properties
-    private String uploadDir;
+    protected
+    String uploadDir;
 
     @Autowired
     public PPTService(FileMetadataRepository fileMetadataRepository) {
