@@ -34,7 +34,7 @@ class PPTServiceTest {
         // Initialize the mock objects
         MockitoAnnotations.openMocks(this);
         // Hardcode or mock the uploadDir
-        pptService.uploadDir = "/home/aishwk/Documents/ppt";
+        pptService.uploadDir = "./temp";
     }
 
     @Test
