@@ -9,6 +9,17 @@ jobs:
   build:
     name: Build and analyze
     runs-on: ubuntu-latest
+
+    services:
+      mysql:
+        image: mysql:8.0
+        env:
+          MYSQL_ROOT_PASSWORD: rootpassword
+          MYSQL_DATABASE: testdb
+          MYSQL_USER: testuser
+          MYSQL_PASSWORD: testpass
+        ports:
+          - 3306:3306
     steps:
       - uses: actions/checkout@v4
         with:
@@ -19,6 +30,10 @@ jobs:
           java-version: 17
           distribution: 'zulu' # Alternative distribution options are available.
       - name: Build with Maven
+        env:
+          SPRING_DATASOURCE_URL: "jdbc:mysql://localhost:3306/testdb"
+          SPRING_DATASOURCE_USERNAME: testuser
+          SPRING_DATASOURCE_PASSWORD: testpass
         run: mvn clean install
       - name: SonarCloud Analysis
         env:
